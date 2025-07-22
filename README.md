@@ -95,13 +95,3 @@ Serialization stack:
 > Task :runAggr FAILED
 ```  
 </details>
-
-## Project Structure
-
-```
-src/main/java/com/example/FlatMapGroupStateKryoEncoderBug.java
-src/main/scala/com/example/AggregatorKryoEncoderBug.scala
-build.gradle
-settings.gradle
-... 
-```
