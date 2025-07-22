@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'scala'
+}
+
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.spark:spark-sql_2.13:4.0.0'
+    implementation 'org.scala-lang:scala-library:2.13.10'
+
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+}
+
+tasks.withType(JavaExec).configureEach {
+    jvmArgs([
+            '-XX:+IgnoreUnrecognizedVMOptions',
+            '--add-opens=java.base/java.lang=ALL-UNNAMED',
+            '--add-opens=java.base/java.lang.invoke=ALL-UNNAMED',
+            '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED',
+            '--add-opens=java.base/java.io=ALL-UNNAMED',
+            '--add-opens=java.base/java.net=ALL-UNNAMED',
+            '--add-opens=java.base/java.nio=ALL-UNNAMED',
+            '--add-opens=java.base/java.util=ALL-UNNAMED',
+            '--add-opens=java.base/java.util.concurrent=ALL-UNNAMED',
+            '--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED',
+            '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED',
+            '--add-opens=java.base/sun.nio.cs=ALL-UNNAMED',
+            '--add-opens=java.base/sun.security.action=ALL-UNNAMED',
+            '--add-opens=java.base/sun.util.calendar=ALL-UNNAMED',
+            '--add-opens=java.desktop/sun.awt.image=ALL-UNNAMED',
+            '-Djdk.reflect.useDirectMethodHandle=false'
+    ])
+}
+
+tasks.register('runFlatMapGroupState', JavaExec) {
+    mainClass.set("com.example.FlatMapGroupStateKryoEncoderBug")
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+tasks.register('runAggr', JavaExec) {
+    mainClass.set("com.example.AggregatorKryoEncoderBug")
+    classpath = sourceSets.main.runtimeClasspath
+}
